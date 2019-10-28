@@ -15,6 +15,7 @@ env:
     - PRETTYNAME="Adafruit TensorFlow Lite Library"
 
 before_install:
+  - export INSTALL_PLATFORMS="samd"
   - source <(curl -SLs https://raw.githubusercontent.com/adafruit/travis-ci-arduino/master/install.sh)
 
 install:
