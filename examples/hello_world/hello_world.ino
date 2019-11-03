@@ -29,7 +29,7 @@ const int kTensorAreaSize  (2 * 1024);
 const float kXrange = 2.f * 3.14159265359f;
 
 // Will need tuning for your chipset
-const int kInferencesPerCycle = 1000;
+const int kInferencesPerCycle = (F_CPU / 64000);
 int inference_count = 0;
 
 Adafruit_TFLite ada_tflite(kTensorAreaSize);
