@@ -53,6 +53,7 @@ void HandleOutput(tflite::ErrorReporter* error_reporter, int kind) {
       arcada.display->setTextSize(ceil(arcada.display->width() / 30));
       arcada.display->print("WING");
     }
+    arcada.WavPlayComplete("wing.wav");
     arcada.pixels.fill(arcada.pixels.Color(50, 50, 0));
     arcada.pixels.show();
   } else if (kind == 1) {
@@ -68,8 +69,9 @@ void HandleOutput(tflite::ErrorReporter* error_reporter, int kind) {
       arcada.display->setTextSize(ceil(arcada.display->width() / 30));
       arcada.display->print("RING");
     }
+    arcada.WavPlayComplete("ring.wav");
     arcada.pixels.fill(arcada.pixels.Color(50, 0, 50));
-     arcada.pixels.show();
+    arcada.pixels.show();
   } else if (kind == 2) {
     error_reporter->Report(
         "SLOPE:\n\r        *\n\r       *\n\r      *\n\r     *\n\r    "
@@ -82,6 +84,7 @@ void HandleOutput(tflite::ErrorReporter* error_reporter, int kind) {
       arcada.display->setTextSize(ceil(arcada.display->width() / 40));
       arcada.display->print("SLOPE");
     }
+    arcada.WavPlayComplete("slope.wav");
     arcada.pixels.fill(arcada.pixels.Color(0, 50, 50));
     arcada.pixels.show();
   } else {
