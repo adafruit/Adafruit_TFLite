@@ -21,7 +21,7 @@ install:
    - rm -rf $HOME/arduino_ide/libraries/Adafruit_Circuit_Playground
    - arduino --install-library "Arduino_TensorFlowLite:1.15.0-ALPHA"
    - arduino --install-library "Adafruit Arcada Library"
-   - arduino --install-library "Adafruit Zero PDM"
+   - arduino --install-library "Adafruit Zero PDM Library"
    - arduino --install-library "Adafruit Unified Sensor"
    - arduino --install-library "Adafruit NeoPixel"
    - arduino --install-library "Adafruit ADT7410 Library"
