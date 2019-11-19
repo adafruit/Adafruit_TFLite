@@ -16,7 +16,7 @@ limitations under the License.
 #include "output_handler.h"
 #include "Arduino.h"
 #include "Adafruit_Arcada.h"
-Adafruit_Arcada arcada;
+extern Adafruit_Arcada arcada;
 
 // The pin of the Arduino's built-in LED
 int led = LED_BUILTIN;
@@ -34,10 +34,6 @@ void HandleOutput(tflite::ErrorReporter* error_reporter, float x_value,
                   float y_value) {
   // Do this only once
   if (!initialized) {
-    // Set the display to be on!    
-    arcada.arcadaBegin();
-    arcada.displayBegin();
-    arcada.setBacklight(255);
     // Add some text to describe what's up!
     arcada.display->fillScreen(ARCADA_BLACK);
     arcada.display->setTextColor(ARCADA_WHITE);
@@ -56,10 +52,12 @@ void HandleOutput(tflite::ErrorReporter* error_reporter, float x_value,
   static float last_pixel_x, last_pixel_y;
   pixel_x = mapf(x_value, 0, 2*3.1415, 0, arcada.display->width());
   pixel_y = mapf(y_value, -1.75, 1.75, 0, arcada.display->height());
+  if (pixel_x == 0) {
+     // clear the screen
+     arcada.display->fillRect(0, 10, arcada.display->width(), arcada.display->width()-20, ARCADA_BLACK);
+  }
 
-  // arcada.display->drawPixel(pixel_x, pixel_y, ST77XX_GREEN);
-  arcada.display->fillCircle(last_pixel_x, last_pixel_y, 5, ARCADA_BLACK);
-  arcada.display->fillCircle(pixel_x, pixel_y, 5, ST77XX_RED);
+  arcada.display->fillCircle(pixel_x, pixel_y, 3, ST77XX_RED);
   last_pixel_x = pixel_x;
   last_pixel_y = pixel_y;
 

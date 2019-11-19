@@ -15,6 +15,7 @@ limitations under the License.
 
 #include <TensorFlowLite.h>
 #include "Adafruit_TFLite.h"
+#include "Adafruit_Arcada.h"
 
 #include "output_handler.h"
 #include "sine_model_data.h"
@@ -32,22 +33,36 @@ const float kXrange = 2.f * 3.14159265359f;
 const int kInferencesPerCycle = 200;
 int inference_count = 0;
 
+Adafruit_Arcada arcada;
 Adafruit_TFLite ada_tflite(kTensorAreaSize);
 
 // The name of this function is important for Arduino compatibility.
 void setup() {
   Serial.begin(115200);
   //while (!Serial) yield();
+
+  arcada.arcadaBegin();
+  // If we are using TinyUSB we will have the filesystem show up!
+  arcada.filesysBeginMSD();
+  arcada.filesysListFiles();
+  // Set the display to be on!
+  arcada.displayBegin();
+  arcada.setBacklight(255);
+  arcada.display->fillScreen(ARCADA_BLUE);
   
   if (! ada_tflite.begin()) {
-    Serial.println("Failed to initialize TFLite");
+    arcada.haltBox("Failed to initialize TFLite");
     while (1) yield();
   }
-
-  if (! ada_tflite.loadModel(g_sine_model_data)) {
-    Serial.println("Failed to load model");
-    while (1) yield();
+  if (arcada.exists("model.tflite")) {
+    arcada.infoBox("Loading model.tflite from disk!");
+    if (! ada_tflite.loadModel(arcada.open("model.tflite"))) {
+      arcada.haltBox("Failed to load model file");
+    }
+  } else if (! ada_tflite.loadModel(g_sine_model_data)) {
+    arcada.haltBox("Failed to load default model");
   }
+  Serial.println("\nOK");
 
   // Keep track of how many inferences we have performed.
   inference_count = 0;

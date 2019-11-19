@@ -23,6 +23,27 @@ uint8_t *Adafruit_TFLite::getArena(void) {
   return _tensor_arena;
 }
 
+
+bool Adafruit_TFLite::loadModel(File modelfile) {
+  if (! modelfile) {
+    Serial.print("Could not open file");
+    return false;
+  }
+  ssize_t filesize = modelfile.size();
+  _model_data = (unsigned char *)malloc(filesize);
+  if (! _model_data) {
+    Serial.print("Could not allocate memory");
+    return false;
+  }
+  Serial.printf("Allocated %d byte model to address $%08x\n", 
+	       filesize, &_model_data);
+  if (modelfile.read(_model_data, filesize) != filesize) {
+    Serial.print("Could not read file");
+    return false;
+  }
+  return loadModel(_model_data);
+}
+
 bool Adafruit_TFLite::loadModel(const unsigned char model_data[]) {
   // Map the model into a usable data structure. This doesn't involve any
   // copying or parsing, it's a very lightweight operation.
