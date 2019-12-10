@@ -37,6 +37,7 @@ void HandleOutput(tflite::ErrorReporter* error_reporter, float x_value,
     // Add some text to describe what's up!
     arcada.display->fillScreen(ARCADA_BLACK);
     arcada.display->setTextColor(ARCADA_WHITE);
+    arcada.display->setTextSize(1);
     const char *header = "TensorFlow Lite";
     const char *footer = "Sine wave model";
     arcada.display->setCursor((arcada.display->width()-strlen(header)*6)/2, 0);
