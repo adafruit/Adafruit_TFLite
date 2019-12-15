@@ -96,10 +96,10 @@ void RespondToCommand(tflite::ErrorReporter* error_reporter,
         arcada.display->setCursor(0, 0);
         arcada.display->setTextColor(ARCADA_WHITE);
         arcada.display->setTextSize(ceil(arcada.display->width() / 180.0));
-        arcada.display->println("Hold microphone/badge");
-        arcada.display->println("approx. 6-8\" away from");
-        arcada.display->println("mouth and say either");
-        arcada.display->println("     YES or NO    ");
+        arcada.display->println("Hold microphone");
+        arcada.display->println("approx. 6-8\" away ");
+        arcada.display->println("from mouth and say");
+        arcada.display->println("either YES or NO");
       }
       arcada.pixels.fill(arcada.pixels.Color(0, 0, 0));
       arcada.pixels.show();
