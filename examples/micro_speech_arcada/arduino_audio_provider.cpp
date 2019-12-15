@@ -32,7 +32,7 @@ limitations under the License.
 #include "micro_features_micro_model_settings.h"
 #include <Adafruit_Arcada.h>
 
-#if defined(SAMD51)
+#if defined(__SAMD51__)
   //#define USE_EXTERNAL_MIC A8  // D2 on pybadge
   #define USE_EDGEBADGE_PDMMIC
   //#define AUDIO_OUT A0         // uncomment to 'echo' audio to A0 for debugging
