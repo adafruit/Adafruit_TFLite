@@ -1,4 +1,4 @@
-# Adafruit TensorFlow Lite Library [![Build Status](https://travis-ci.com/adafruit/Adafruit_TFLite.svg?branch=master)](https://travis-ci.com/adafruit/Adafruit_TFLite)
+# Adafruit TensorFlow Lite Library ![Build Status](https://github.com/adafruit/Adafruit_TFLite/workflows/Arduino%20Library%20CI/badge.svg)
 
 This is the Adafruit TensorFlow Lite Helper Library
 
