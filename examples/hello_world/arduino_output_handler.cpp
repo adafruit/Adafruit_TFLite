@@ -13,8 +13,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ==============================================================================*/
 
-#include "output_handler.h"
 #include "Arduino.h"
+#include "output_handler.h"
 
 // The pin of the Arduino's built-in LED
 int led = LED_BUILTIN;
@@ -23,7 +23,7 @@ int led = LED_BUILTIN;
 bool initialized = false;
 
 // Animates a dot across the screen to represent the current x and y values
-void HandleOutput(tflite::ErrorReporter* error_reporter, float x_value,
+void HandleOutput(tflite::ErrorReporter *error_reporter, float x_value,
                   float y_value) {
   // Do this only once
   if (!initialized) {

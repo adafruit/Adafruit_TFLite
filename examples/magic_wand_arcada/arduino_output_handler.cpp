@@ -15,16 +15,15 @@ limitations under the License.
 
 #include "output_handler.h"
 
-#include "Arduino.h"
 #include "Adafruit_Arcada.h"
+#include "Arduino.h"
 
 extern Adafruit_Arcada arcada;
 
-
-void HandleOutput(tflite::ErrorReporter* error_reporter, int kind) {
+void HandleOutput(tflite::ErrorReporter *error_reporter, int kind) {
   // The first time this method runs, set up our LED
   static int last_kind = -1;
-  
+
   static bool is_initialized = false;
   if (!is_initialized) {
     pinMode(LED_BUILTIN, OUTPUT);

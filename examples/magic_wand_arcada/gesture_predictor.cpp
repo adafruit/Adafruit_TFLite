@@ -24,11 +24,12 @@ int last_predict = -1;
 
 // Return the result of the last prediction
 // 0: wing("W"), 1: ring("O"), 2: slope("angle"), 3: unknown
-int PredictGesture(float* output) {
+int PredictGesture(float *output) {
   // Find whichever output has a probability > 0.8 (they sum to 1)
   int this_predict = -1;
   for (int i = 0; i < 3; i++) {
-    if (output[i] > 0.8) this_predict = i;
+    if (output[i] > 0.8)
+      this_predict = i;
   }
   // No gesture was detected above the threshold
   if (this_predict == -1) {

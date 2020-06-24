@@ -21,4 +21,4 @@ const float kTargetHz = 25;
 
 // The number of expected consecutive inferences for each gesture type
 extern const int kConsecutiveInferenceThresholds[3];
-#endif  // TENSORFLOW_LITE_EXPERIMENTAL_MICRO_EXAMPLES_MAGIC_WAND_CONSTANTS_H_
+#endif // TENSORFLOW_LITE_EXPERIMENTAL_MICRO_EXAMPLES_MAGIC_WAND_CONSTANTS_H_

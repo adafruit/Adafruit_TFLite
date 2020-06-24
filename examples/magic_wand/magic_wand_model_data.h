@@ -24,4 +24,4 @@ limitations under the License.
 extern const unsigned char g_magic_wand_model_data[];
 extern const int g_magic_wand_model_data_len;
 
-#endif  // TENSORFLOW_LITE_EXPERIMENTAL_MICRO_EXAMPLES_MAGIC_WAND_MAGIC_WAND_MODEL_DATA_H_
+#endif // TENSORFLOW_LITE_EXPERIMENTAL_MICRO_EXAMPLES_MAGIC_WAND_MAGIC_WAND_MODEL_DATA_H_

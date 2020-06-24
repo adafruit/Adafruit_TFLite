@@ -22,8 +22,8 @@ extern Adafruit_Arcada arcada;
 
 // Toggles the built-in LED every inference, and lights a colored LED depending
 // on which word was detected.
-void RespondToCommand(tflite::ErrorReporter* error_reporter,
-                      int32_t current_time, const char* found_command,
+void RespondToCommand(tflite::ErrorReporter *error_reporter,
+                      int32_t current_time, const char *found_command,
                       uint8_t score, bool is_new_command) {
   static bool is_initialized = false;
   if (!is_initialized) {

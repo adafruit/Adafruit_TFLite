@@ -20,8 +20,7 @@ limitations under the License.
 
 extern Adafruit_NeoPixel pixels;
 
-
-void HandleOutput(tflite::ErrorReporter* error_reporter, int kind) {
+void HandleOutput(tflite::ErrorReporter *error_reporter, int kind) {
   // The first time this method runs, set up our LED
   static bool is_initialized = false;
   if (!is_initialized) {
@@ -49,8 +48,8 @@ void HandleOutput(tflite::ErrorReporter* error_reporter, int kind) {
         "RING:\n\r          *\n\r       *     *\n\r     *         *\n\r "
         "   *           *\n\r     *         *\n\r       *     *\n\r      "
         "    *\n\r");
-     pixels.fill(pixels.Color(50, 0, 50));
-     pixels.show();
+    pixels.fill(pixels.Color(50, 0, 50));
+    pixels.show();
   } else if (kind == 2) {
     error_reporter->Report(
         "SLOPE:\n\r        *\n\r       *\n\r      *\n\r     *\n\r    "

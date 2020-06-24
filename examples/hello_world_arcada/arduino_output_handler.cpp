@@ -13,9 +13,9 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ==============================================================================*/
 
-#include "output_handler.h"
-#include "Arduino.h"
 #include "Adafruit_Arcada.h"
+#include "Arduino.h"
+#include "output_handler.h"
 extern Adafruit_Arcada arcada;
 
 // The pin of the Arduino's built-in LED
@@ -25,12 +25,13 @@ int led = LED_BUILTIN;
 bool initialized = false;
 
 // helper function to let us scale floating point values nicely
-double mapf(double x, double in_min, double in_max, double out_min, double out_max) {
-    return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+double mapf(double x, double in_min, double in_max, double out_min,
+            double out_max) {
+  return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
 
 // Animates a dot across the screen to represent the current x and y values
-void HandleOutput(tflite::ErrorReporter* error_reporter, float x_value,
+void HandleOutput(tflite::ErrorReporter *error_reporter, float x_value,
                   float y_value) {
   // Do this only once
   if (!initialized) {
@@ -40,9 +41,12 @@ void HandleOutput(tflite::ErrorReporter* error_reporter, float x_value,
     arcada.display->setTextSize(1);
     const char *header = "TensorFlow Lite";
     const char *footer = "Sine wave model";
-    arcada.display->setCursor((arcada.display->width()-strlen(header)*6)/2, 0);
+    arcada.display->setCursor(
+        (arcada.display->width() - strlen(header) * 6) / 2, 0);
     arcada.display->print(header);
-    arcada.display->setCursor((arcada.display->width()-strlen(footer)*6)/2, arcada.display->height()-8);
+    arcada.display->setCursor((arcada.display->width() - strlen(footer) * 6) /
+                                  2,
+                              arcada.display->height() - 8);
     arcada.display->print(footer);
     initialized = true;
   }
@@ -51,11 +55,12 @@ void HandleOutput(tflite::ErrorReporter* error_reporter, float x_value,
   // to the size of the display
   float pixel_x, pixel_y;
   static float last_pixel_x, last_pixel_y;
-  pixel_x = mapf(x_value, 0, 2*3.1415, 0, arcada.display->width());
+  pixel_x = mapf(x_value, 0, 2 * 3.1415, 0, arcada.display->width());
   pixel_y = mapf(y_value, -1.75, 1.75, 0, arcada.display->height());
   if (pixel_x == 0) {
-     // clear the screen
-     arcada.display->fillRect(0, 10, arcada.display->width(), arcada.display->width()-20, ARCADA_BLACK);
+    // clear the screen
+    arcada.display->fillRect(0, 10, arcada.display->width(),
+                             arcada.display->width() - 20, ARCADA_BLACK);
   }
 
   arcada.display->fillCircle(pixel_x, pixel_y, 3, ST77XX_RED);
