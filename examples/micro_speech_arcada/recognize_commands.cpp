@@ -17,7 +17,7 @@ limitations under the License.
 
 #include <limits>
 
-RecognizeCommands::RecognizeCommands(tflite::ErrorReporter *error_reporter,
+RecognizeCommands::RecognizeCommands(tflite::ErrorReporter* error_reporter,
                                      int32_t average_window_duration_ms,
                                      uint8_t detection_threshold,
                                      int32_t suppression_ms,
@@ -25,15 +25,16 @@ RecognizeCommands::RecognizeCommands(tflite::ErrorReporter *error_reporter,
     : error_reporter_(error_reporter),
       average_window_duration_ms_(average_window_duration_ms),
       detection_threshold_(detection_threshold),
-      suppression_ms_(suppression_ms), minimum_count_(minimum_count),
+      suppression_ms_(suppression_ms),
+      minimum_count_(minimum_count),
       previous_results_(error_reporter) {
   previous_top_label_ = "silence";
   previous_top_label_time_ = std::numeric_limits<int32_t>::min();
 }
 
 TfLiteStatus RecognizeCommands::ProcessLatestResults(
-    const TfLiteTensor *latest_results, const int32_t current_time_ms,
-    const char **found_command, uint8_t *score, bool *is_new_command) {
+    const TfLiteTensor* latest_results, const int32_t current_time_ms,
+    const char** found_command, uint8_t* score, bool* is_new_command) {
   if ((latest_results->dims->size != 2) ||
       (latest_results->dims->data[0] != 1) ||
       (latest_results->dims->data[1] != kCategoryCount)) {
@@ -89,7 +90,7 @@ TfLiteStatus RecognizeCommands::ProcessLatestResults(
   for (int offset = 0; offset < previous_results_.size(); ++offset) {
     PreviousResultsQueue::Result previous_result =
         previous_results_.from_front(offset);
-    const uint8_t *scores = previous_result.scores_;
+    const uint8_t* scores = previous_result.scores_;
     for (int i = 0; i < kCategoryCount; ++i) {
       if (offset == 0) {
         average_scores[i] = scores[i];
@@ -111,7 +112,7 @@ TfLiteStatus RecognizeCommands::ProcessLatestResults(
       current_top_index = i;
     }
   }
-  const char *current_top_label = kCategoryLabels[current_top_index];
+  const char* current_top_label = kCategoryLabels[current_top_index];
 
   // If we've recently had another label trigger, assume one that occurs too
   // soon afterwards is a bad result.

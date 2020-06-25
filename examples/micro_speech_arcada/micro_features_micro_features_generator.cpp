@@ -30,9 +30,9 @@ namespace {
 FrontendState g_micro_features_state;
 bool g_is_first_time = true;
 
-} // namespace
+}  // namespace
 
-TfLiteStatus InitializeMicroFeatures(tflite::ErrorReporter *error_reporter) {
+TfLiteStatus InitializeMicroFeatures(tflite::ErrorReporter* error_reporter) {
   FrontendConfig config;
   config.window.size_ms = kFeatureSliceDurationMs;
   config.window.step_size_ms = kFeatureSliceStrideMs;
@@ -61,17 +61,17 @@ TfLiteStatus InitializeMicroFeatures(tflite::ErrorReporter *error_reporter) {
 
 // This is not exposed in any header, and is only used for testing, to ensure
 // that the state is correctly set up before generating results.
-void SetMicroFeaturesNoiseEstimates(const uint32_t *estimate_presets) {
+void SetMicroFeaturesNoiseEstimates(const uint32_t* estimate_presets) {
   for (int i = 0; i < g_micro_features_state.filterbank.num_channels; ++i) {
     g_micro_features_state.noise_reduction.estimate[i] = estimate_presets[i];
   }
 }
 
-TfLiteStatus GenerateMicroFeatures(tflite::ErrorReporter *error_reporter,
-                                   const int16_t *input, int input_size,
-                                   int output_size, uint8_t *output,
-                                   size_t *num_samples_read) {
-  const int16_t *frontend_input;
+TfLiteStatus GenerateMicroFeatures(tflite::ErrorReporter* error_reporter,
+                                   const int16_t* input, int input_size,
+                                   int output_size, uint8_t* output,
+                                   size_t* num_samples_read) {
+  const int16_t* frontend_input;
   if (g_is_first_time) {
     frontend_input = input;
     g_is_first_time = false;

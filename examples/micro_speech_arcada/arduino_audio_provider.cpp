@@ -33,24 +33,24 @@ limitations under the License.
 #include <Adafruit_Arcada.h>
 
 #if defined(__SAMD51__)
-//#define USE_EXTERNAL_MIC A8  // D2 on pybadge
-#define USE_EDGEBADGE_PDMMIC
-//#define AUDIO_OUT A0         // uncomment to 'echo' audio to A0 for debugging
-#define DEFAULT_BUFFER_SIZE 512
+  //#define USE_EXTERNAL_MIC A8  // D2 on pybadge
+  #define USE_EDGEBADGE_PDMMIC
+  //#define AUDIO_OUT A0         // uncomment to 'echo' audio to A0 for debugging
+  #define DEFAULT_BUFFER_SIZE 512
 
-#if defined(USE_EDGEBADGE_PDMMIC)
-#include <Adafruit_ZeroPDMSPI.h>
-#define PDM_SPI SPI2 // PDM mic SPI peripheral
-#define TIMER_CALLBACK SERCOM3_0_Handler
-Adafruit_ZeroPDMSPI pdmspi(&PDM_SPI);
-#endif
+  #if defined(USE_EDGEBADGE_PDMMIC)
+    #include <Adafruit_ZeroPDMSPI.h>
+    #define PDM_SPI            SPI2    // PDM mic SPI peripheral
+    #define TIMER_CALLBACK     SERCOM3_0_Handler
+    Adafruit_ZeroPDMSPI pdmspi(&PDM_SPI);
+  #endif
 #endif
 
 #if defined(ARDUINO_NRF52840_CIRCUITPLAY)
-#include <PDM.h>
-#define DEFAULT_BUFFER_SIZE DEFAULT_PDM_BUFFER_SIZE
-extern PDMClass PDM;
-static volatile int samplesRead; // number of samples read
+  #include <PDM.h>
+  #define DEFAULT_BUFFER_SIZE DEFAULT_PDM_BUFFER_SIZE
+  extern PDMClass PDM;
+  static volatile int samplesRead; // number of samples read
 #endif
 
 extern Adafruit_Arcada arcada;
@@ -70,20 +70,20 @@ volatile int32_t g_latest_audio_timestamp = 0;
 volatile int16_t recording_buffer[DEFAULT_BUFFER_SIZE];
 
 volatile int max_audio = -32768, min_audio = 32768;
-} // namespace
+}  // namespace
 
 #if defined(ARDUINO_NRF52840_CIRCUITPLAY)
   // IRQ handler
-static void onPDMdata() {
-  // query the number of bytes available
-  int bytesAvailable = PDM.available();
-
-  // read into the sample buffer
-  PDM.read((int16_t *)recording_buffer, bytesAvailable);
-
-  // 16-bit, 2 bytes per sample
-  samplesRead = bytesAvailable / 2;
-}
+  static void onPDMdata() {
+    // query the number of bytes available
+    int bytesAvailable = PDM.available();
+  
+    // read into the sample buffer
+    PDM.read((int16_t *)recording_buffer, bytesAvailable);
+  
+    // 16-bit, 2 bytes per sample
+    samplesRead = bytesAvailable / 2;
+  }
 #endif
 
 void TIMER_CALLBACK() {
@@ -100,14 +100,14 @@ void TIMER_CALLBACK() {
 #endif
 
   // tick tock test
-  // digitalWrite(LED_BUILTIN, ledtoggle);
-  // ledtoggle = !ledtoggle;
+  //digitalWrite(LED_BUILTIN, ledtoggle);
+  //ledtoggle = !ledtoggle;
 
 #if defined(ARDUINO_NRF52840_CIRCUITPLAY)
-  PDM.IrqHandler(); // wait for samples to be read
+  PDM.IrqHandler();    // wait for samples to be read
   if (samplesRead) {
     max_audio = -32768, min_audio = 32768;
-    for (int i = 0; i < samplesRead; i++) {
+    for (int i=0; i<samplesRead; i++) {
       max_audio = max(recording_buffer[i], max_audio);
       min_audio = min(recording_buffer[i], min_audio);
     }
@@ -117,7 +117,7 @@ void TIMER_CALLBACK() {
   // we did a whole buffer at once, so we're done
   return;
 #endif
-
+  
   if (audio_idx >= DEFAULT_BUFFER_SIZE) {
     CaptureSamples();
     max_audio = -32768, min_audio = 32768;
@@ -132,7 +132,7 @@ void TIMER_CALLBACK() {
   sample -= 32676; // from 0-65535 to -32768 to 32768
 #endif
 #if defined(AUDIO_OUT)
-  analogWrite(AUDIO_OUT, sample + 2048);
+  analogWrite(AUDIO_OUT, sample+2048); 
 #endif
 
   recording_buffer[audio_idx] = sample;
@@ -141,12 +141,11 @@ void TIMER_CALLBACK() {
   audio_idx++;
 }
 
-TfLiteStatus InitAudioRecording(tflite::ErrorReporter *error_reporter) {
+TfLiteStatus InitAudioRecording(tflite::ErrorReporter* error_reporter) {
   Serial.begin(115200);
-
-  Serial.println("init audio");
-  delay(10);
-
+  
+  Serial.println("init audio"); delay(10);
+  
   // Hook up the callback that will be called with each sample
 #if defined(USE_EXTERNAL_MIC)
   arcada.timerCallback(kAudioSampleFrequency, TIMER_CALLBACK);
@@ -154,18 +153,16 @@ TfLiteStatus InitAudioRecording(tflite::ErrorReporter *error_reporter) {
 #endif
 #if defined(USE_EDGEBADGE_PDMMIC)
   pdmspi.begin(kAudioSampleFrequency);
-  Serial.print("Final PDM frequency: ");
-  Serial.println(pdmspi.sampleRate);
+  Serial.print("Final PDM frequency: "); Serial.println(pdmspi.sampleRate);
 #endif
-#if defined(AUDIO_OUT)
+#if defined(AUDIO_OUT)  
   analogWriteResolution(12);
 #endif
 #if defined(ARDUINO_NRF52840_CIRCUITPLAY)
   PDM.onReceive(onPDMdata);
   if (!PDM.begin(1, 16000)) {
     Serial.println("Failed to start PDM!");
-    while (1)
-      yield();
+    while (1) yield();
   }
   arcada.timerCallback(kAudioSampleFrequency, TIMER_CALLBACK);
 #endif
@@ -190,24 +187,21 @@ void CaptureSamples() {
       g_latest_audio_timestamp * (kAudioSampleFrequency / 1000);
   // Determine the index of this sample in our ring buffer
   const int capture_index = start_sample_offset % kAudioCaptureBufferSize;
-  // Read the data to the correct place in our buffer, note 2 bytes per buffer
-  // entry
-  memcpy(g_audio_capture_buffer + capture_index, (void *)recording_buffer,
-         DEFAULT_BUFFER_SIZE * 2);
+  // Read the data to the correct place in our buffer, note 2 bytes per buffer entry
+  memcpy(g_audio_capture_buffer + capture_index, (void *)recording_buffer, DEFAULT_BUFFER_SIZE*2);
   // This is how we let the outside world know that new audio data has arrived.
   g_latest_audio_timestamp = time_in_ms;
 
   int peak = (max_audio - min_audio);
   Serial.printf("pp %d\n", peak);
-  // int normalized = map(peak, 20, 2000, 0, 65535);
-  // arcada.pixels.setPixelColor(0,
-  // arcada.pixels.gamma32(arcada.pixels.ColorHSV(normalized)));
-  // arcada.pixels.show();
+  //int normalized = map(peak, 20, 2000, 0, 65535);
+  //arcada.pixels.setPixelColor(0, arcada.pixels.gamma32(arcada.pixels.ColorHSV(normalized)));
+  //arcada.pixels.show();
 }
 
-TfLiteStatus GetAudioSamples(tflite::ErrorReporter *error_reporter,
+TfLiteStatus GetAudioSamples(tflite::ErrorReporter* error_reporter,
                              int start_ms, int duration_ms,
-                             int *audio_samples_size, int16_t **audio_samples) {
+                             int* audio_samples_size, int16_t** audio_samples) {
   // Set everything up to start receiving audio
   if (!g_is_audio_initialized) {
     TfLiteStatus init_status = InitAudioRecording(error_reporter);
