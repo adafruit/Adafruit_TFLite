@@ -8,4 +8,4 @@ Written by Limor Fried for Adafruit Industries.
 Apache2 license to match TensorFlow, check license.txt for more information
 All text above must be included in any redistribution
 
-To install, use the Arduino Library Manager and search for "Adafruit Arcada Library" and install the library.
+To install, use the Arduino Library Manager and search for "Adafruit Tensorflow Lite" and install the library.
