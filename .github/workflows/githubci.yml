@@ -29,11 +29,11 @@ jobs:
     - name: test platforms
       run: python3 ci/build_platform.py pybadge cpb
 
-    - name: clang
-      run: python3 ci/run-clang-format.py -e "ci/*" -e "bin/*" -r . 
+    #- name: clang
+    #  run: python3 ci/run-clang-format.py -e "ci/*" -e "bin/*" -r . 
 
-    - name: doxygen
-      env:
-        GH_REPO_TOKEN: ${{ secrets.GH_REPO_TOKEN }}
-        PRETTYNAME : "Adafruit TFLite Library"
-      run: bash ci/doxy_gen_and_deploy.sh
+    #- name: doxygen
+    #  env:
+    #    GH_REPO_TOKEN: ${{ secrets.GH_REPO_TOKEN }}
+    #    PRETTYNAME : "Adafruit TFLite Library"
+    #  run: bash ci/doxy_gen_and_deploy.sh
