@@ -27,7 +27,7 @@ jobs:
 
 
     - name: test platforms
-      run: python3 ci/build_platform.py pybadge nrf52840
+      run: python3 ci/build_platform.py pybadge cpb
 
     - name: clang
       run: python3 ci/run-clang-format.py -e "ci/*" -e "bin/*" -r . 
