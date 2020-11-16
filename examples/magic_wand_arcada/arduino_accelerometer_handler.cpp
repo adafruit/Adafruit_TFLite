@@ -45,6 +45,16 @@ const bool INVERT_Y = true;
 const bool INVERT_Z = false;
 #endif
 
+#if defined(ARDUINO_NRF52840_CLUE)
+// holding up with gizmo facing you
+const int X_POSITION = 1;
+const int Y_POSITION = 2;
+const int Z_POSITION = 0;
+const bool INVERT_X = true;
+const bool INVERT_Y = true;
+const bool INVERT_Z = false;
+#endif
+
 #include "constants.h"
 
 // A buffer holding the last 200 sets of 3-channel values
@@ -66,8 +76,8 @@ TfLiteStatus SetupAccelerometer(tflite::ErrorReporter* error_reporter) {
 
   arcada.pixels.setBrightness(50); // Set BRIGHTNESS to about 1/5 (max = 255)
 
-  arcada.accel.setRange(LIS3DH_RANGE_4_G);
-  arcada.accel.setDataRate(LIS3DH_DATARATE_25_HZ);
+  arcada.accel->setRange(LIS3DH_RANGE_4_G);
+  arcada.accel->setDataRate(LIS3DH_DATARATE_25_HZ);
   float sample_rate = 25;
   
   // Determine how many measurements to keep in order to
@@ -90,13 +100,13 @@ bool ReadAccelerometer(tflite::ErrorReporter* error_reporter, float* input,
   // Keep track of whether we stored any new data
   bool new_data = false;
   // Loop through new samples and add to buffer
-  while (arcada.accel.haveNewData()) {
+  while (arcada.accel->haveNewData()) {
     float x, y, z;
     
     // Read each sample, removing it from the device's FIFO buffer
     sensors_event_t event; 
     
-    if (! arcada.accel.getEvent(&event)) {
+    if (! arcada.accel->getEvent(&event)) {
       error_reporter->Report("Failed to read data");
       break;
     }
