@@ -24,6 +24,10 @@ int led = LED_BUILTIN;
 // Track whether the function has run at least once
 bool initialized = false;
 
+// Track the last pixel written
+float last_pixel_x = 0;
+float last_pixel_y = 0;
+
 // helper function to let us scale floating point values nicely
 double mapf(double x, double in_min, double in_max, double out_min, double out_max) {
     return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
@@ -50,15 +54,14 @@ void HandleOutput(tflite::ErrorReporter* error_reporter, float x_value,
   // map the x input value (0-2*PI) and the y value (-1.5 to 1.5)
   // to the size of the display
   float pixel_x, pixel_y;
-  static float last_pixel_x, last_pixel_y;
   pixel_x = mapf(x_value, 0, 2*3.1415, 0, arcada.display->width());
   pixel_y = mapf(y_value, -1.75, 1.75, 0, arcada.display->height());
-  if (pixel_x == 0) {
-     // clear the screen
-     arcada.display->fillRect(0, 10, arcada.display->width(), arcada.display->width()-20, ARCADA_BLACK);
-  }
 
+  // Clear the old pixel and write the new pixel
+  arcada.display->fillCircle(last_pixel_x, last_pixel_y, 3, ARCADA_BLACK);
   arcada.display->fillCircle(pixel_x, pixel_y, 3, ST77XX_RED);
+
+  // Save the pixel location so it can be cleared on next pass
   last_pixel_x = pixel_x;
   last_pixel_y = pixel_y;
 
