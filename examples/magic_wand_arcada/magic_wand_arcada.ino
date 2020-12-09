@@ -24,9 +24,9 @@ Adafruit_Arcada arcada;
 #include "gesture_predictor.h"
 #include "magic_wand_model_data.h"
 #include "output_handler.h"
-#include "tensorflow/lite/experimental/micro/micro_error_reporter.h"
-#include "tensorflow/lite/experimental/micro/micro_interpreter.h"
-#include "tensorflow/lite/experimental/micro/micro_mutable_op_resolver.h"
+#include "tensorflow/lite/micro/micro_error_reporter.h"
+#include "tensorflow/lite/micro/micro_interpreter.h"
+#include "tensorflow/lite/micro/micro_mutable_op_resolver.h"
 #include "tensorflow/lite/schema/schema_generated.h"
 #include "tensorflow/lite/version.h"
 
@@ -113,7 +113,7 @@ void setup() {
   // An easier approach is to just use the AllOpsResolver, but this will
   // incur some penalty in code space for op implementations that are not
   // needed by this graph.
-  static tflite::MicroMutableOpResolver micro_mutable_op_resolver;  // NOLINT
+  static tflite::MicroMutableOpResolver<5> micro_mutable_op_resolver;  // NOLINT
   micro_mutable_op_resolver.AddBuiltin(
       tflite::BuiltinOperator_DEPTHWISE_CONV_2D,
       tflite::ops::micro::Register_DEPTHWISE_CONV_2D());

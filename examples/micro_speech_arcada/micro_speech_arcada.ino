@@ -25,10 +25,10 @@ Adafruit_Arcada arcada;
 #include "micro_features_micro_model_settings.h"
 #include "micro_features_tiny_conv_micro_features_model_data.h"
 #include "recognize_commands.h"
-#include "tensorflow/lite/experimental/micro/kernels/micro_ops.h"
-#include "tensorflow/lite/experimental/micro/micro_error_reporter.h"
-#include "tensorflow/lite/experimental/micro/micro_interpreter.h"
-#include "tensorflow/lite/experimental/micro/micro_mutable_op_resolver.h"
+#include "tensorflow/lite/micro/kernels/micro_ops.h"
+#include "tensorflow/lite/micro/micro_error_reporter.h"
+#include "tensorflow/lite/micro/micro_interpreter.h"
+#include "tensorflow/lite/micro/micro_mutable_op_resolver.h"
 #include "tensorflow/lite/schema/schema_generated.h"
 #include "tensorflow/lite/version.h"
 
@@ -111,7 +111,7 @@ void setup() {
   //
   // tflite::ops::micro::AllOpsResolver resolver;
   // NOLINTNEXTLINE(runtime-global-variables)
-  static tflite::MicroMutableOpResolver micro_mutable_op_resolver;
+  static tflite::MicroMutableOpResolver<4> micro_mutable_op_resolver;
   micro_mutable_op_resolver.AddBuiltin(
       tflite::BuiltinOperator_DEPTHWISE_CONV_2D,
       tflite::ops::micro::Register_DEPTHWISE_CONV_2D());

@@ -1,16 +1,16 @@
 #include <Arduino.h>
 #include <TensorFlowLite.h>
 #include <SdFat.h>
-#include "tensorflow/lite/experimental/micro/kernels/all_ops_resolver.h"
-#include "tensorflow/lite/experimental/micro/micro_error_reporter.h"
-#include "tensorflow/lite/experimental/micro/micro_interpreter.h"
+#include "tensorflow/lite/micro/kernels/all_ops_resolver.h"
+#include "tensorflow/lite/micro/micro_error_reporter.h"
+#include "tensorflow/lite/micro/micro_interpreter.h"
 #include "tensorflow/lite/schema/schema_generated.h"
 #include "tensorflow/lite/version.h"
 
 #include "tensorflow/lite/core/api/error_reporter.h"
-#include "tensorflow/lite/experimental/micro/compatibility.h"
-#include "tensorflow/lite/experimental/micro/debug_log.h"
-#include "tensorflow/lite/experimental/micro/debug_log_numbers.h"
+#include "tensorflow/lite/micro/compatibility.h"
+#include "tensorflow/lite/micro/debug_log.h"
+#include "tensorflow/lite/micro/debug_log_numbers.h"
 
 class Adafruit_TFLite {
  public:
