@@ -23,7 +23,10 @@ jobs:
     - name: extra libraries
       run: |
         export PATH=$PATH:$GITHUB_WORKSPACE/bin
-        arduino-cli lib install Arduino_TensorFlowLite@1.15.0-ALPHA
+        curl -o Arduino_TensorFlowLite-1.15.0-ALPHA.zip https://downloads.arduino.cc/libraries/github.com/bcmi-labs/Arduino_TensorFlowLite-1.15.0-ALPHA.zip
+        arduino-cli config set library.enable_unsafe_install true
+        arduino-cli lib install --zip-path Arduino_TensorFlowLite-1.15.0-ALPHA.zip
+    #   arduino-cli lib install Arduino_TensorFlowLite@1.15.0-ALPHA
 
 
     - name: test platforms
