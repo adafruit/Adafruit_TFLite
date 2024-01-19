@@ -18,9 +18,10 @@ limitations under the License.
 
 #include <cstdint>
 
-#include "tensorflow/lite/c/c_api_internal.h"
+
+#include "tensorflow/lite/c/common.h"
 #include "micro_features_micro_model_settings.h"
-#include "tensorflow/lite/experimental/micro/micro_error_reporter.h"
+#include "tensorflow/lite/micro/micro_error_reporter.h"
 
 // Partial implementation of std::dequeue, just providing the functionality
 // that's needed to keep a record of previous neural network results over a

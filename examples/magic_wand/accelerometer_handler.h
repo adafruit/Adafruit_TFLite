@@ -18,8 +18,8 @@ limitations under the License.
 
 #define kChannelNumber 3
 
-#include "tensorflow/lite/c/c_api_internal.h"
-#include "tensorflow/lite/experimental/micro/micro_error_reporter.h"
+#include "tensorflow/lite/c/common.h"
+#include "tensorflow/lite/micro/micro_error_reporter.h"
 
 extern int begin_index;
 extern TfLiteStatus SetupAccelerometer(tflite::ErrorReporter* error_reporter);
